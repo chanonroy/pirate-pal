@@ -11,8 +11,8 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = join(dirname(__file__), 'local.env')
 load_dotenv(dotenv_path)
 
-# TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-# STATIC_DIR = os.path.join(BASE_DIR, 'static')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = True
@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'movies.apps.MoviesConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -49,7 +50,7 @@ ROOT_URLCONF = 'piratepal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
