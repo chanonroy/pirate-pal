@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title> Pirate Pal | Register </title>
+     <link rel="stylesheet" type="text/css" href=" ">
+   </head>
+   <body>
+
+    <h1> Account Registration </h1>
+
+    {% if registered %}
+    <p> Thank you for registering </p>
+
+    {% else %}
+    <p> Register Below </p>
+
+    <form id="user_form" method="post" action="{% url 'accounts.register' %}" enctype="multipart/form-data">
+
+      {% csrf_token %}
+      <!-- .as_p wraps in <p> -->
+      {{ user_form }}
+      {{ profile_form }}
+
+      <input type="submit" name="submit" value="Register" />
+
+    </form>
+
+    {% endif %}
+
+   </body>
+ </html>

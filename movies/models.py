@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Movie(models.Model):
     imdb_id = models.CharField(max_length=100, unique=True)
     title = models.CharField(max_length=50, unique=True)
-    photo = models.CharField(max_length=100)
+    photo = models.CharField(max_length=250)
     year = models.CharField(max_length=4)
     rated = models.CharField(max_length=8)
     runtime = models.CharField(max_length=8)

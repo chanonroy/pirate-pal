@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     # http://whitenoise.evans.io/en/stable/django.html#using-whitenoise-in-development
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
-    'movies.apps.MoviesConfig'
+    'movies.apps.MoviesConfig',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
