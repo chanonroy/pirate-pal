@@ -24,7 +24,6 @@ def getTop(url):
 
     # Does fuzzy wuzzy string matching - should 100% match
 
-
 def checkIndividual(url):
     # should go lower case
     pass

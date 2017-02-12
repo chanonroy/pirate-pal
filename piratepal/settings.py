@@ -3,20 +3,23 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
 # For loading environment variables with .env file (python-dotenv)
 dotenv_path = join(dirname(__file__), 'local.env')
 load_dotenv(dotenv_path)
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
+# Env Config
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+MOVIE_API = os.environ.get('MOVIE_API_URL')
 DEBUG = True
 
+# Auth Items
 LOGIN_URL = '/account/login/'
 LOGOUT_REDIRECT_URL = '/'
 

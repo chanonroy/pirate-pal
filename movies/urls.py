@@ -5,5 +5,6 @@ urlpatterns = [
     url(r'^$', views.index, name='movies.dashboard'),
     url(r'^watchlist/', views.index, name='movies.watchlist'),
     url(r'^add/', views.index, name='movies.add'),
+    url(r'^archive/', views.archive, name='movies.archive'),
 
 ]

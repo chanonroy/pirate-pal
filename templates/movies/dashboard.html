@@ -4,12 +4,17 @@
 
 <h2> Movies Watchlist </h2>
 
+<div><a href="{% url 'movies.archive' %}"> Archived </a></div>
 <div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
 
+{% if movies %}
 <ul>
-  <li> Movie one </li>
-  <li> Movie two </li>
-  <li> Movie three </li>
+  {% for movie in movies %}
+  <li> {{ movie.title }} </li>
+  {% endfor %}
 </ul>
+{% else %}
+<div> No movies on watchlist </div>
+{% endif %}
 
 {% endblock %}
