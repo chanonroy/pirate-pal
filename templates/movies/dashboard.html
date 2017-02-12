@@ -1,14 +1,15 @@
-<!DOCTYPE html>
- <html>
-   <head>
-     <meta charset="utf-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title> Pirate Pal | My Movies </title>
-     <link rel="stylesheet" type="text/css" href=" ">
-   </head>
-   <body>
-     <h1> My List of Movies </h1>
-     <script type="text/javascript" src=" "></script>
-   </body>
- </html>
+{% extends '_base/base.html' %}
+
+{% block content %}
+
+<h2> Movies Watchlist </h2>
+
+<div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
+
+<ul>
+  <li> Movie one </li>
+  <li> Movie two </li>
+  <li> Movie three </li>
+</ul>
+
+{% endblock %}

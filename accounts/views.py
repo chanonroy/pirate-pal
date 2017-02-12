@@ -33,7 +33,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect('accounts.login')
+        return redirect('landing')
 
 class RegisterView(View):
     form_class = LoginForm
@@ -60,7 +60,6 @@ class RegisterView(View):
 
             # Check if in database
             if user is not None:
-                # Account is okay
                 if user.is_active:
                     login(request, user)
                     return redirect('movies.dashboard')
