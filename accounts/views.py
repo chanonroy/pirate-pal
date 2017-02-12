@@ -1,26 +1,68 @@
-from .forms import UserForm, UserProfileForm
-from django.shortcuts import render
+from .forms import LoginForm
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.views.generic import View
 
-def register(request):
-    registered = False
+class LoginView(View):
+    form_class = LoginForm
+    template_name = 'accounts/login.html'
 
-    if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, { 'form': form })
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
+    def post(self, request):
+        form = self.form_class(None, request.POST)
 
-            #.set_password hashes the password
-            user.set_password(user.password)
+        if form.is_valid():
+            print('valid working')
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('movies.dashboard')
+                else:
+                    return HttpResponse("Inactive user.")
+
+        return render(request, self.template_name, { 'form': form })
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('accounts.login')
+
+class RegisterView(View):
+    form_class = LoginForm
+    template_name = 'accounts/register.html'
+
+    def get(self, request):
+        form = self.form_class(None)
+        return render(request, self.template_name, { 'form': form })
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            # create obj from form, don't save yet.
+            user = form.save(commit=False)
+            # cleaned (formatted) data, hash password, and save
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user.set_password(password)
             user.save()
-            registered = True
 
-        else:
-            print(user_form.errors, profile_form.errors)
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
+            # returns User object if credentials are correct
+            user = authenticate(username=username, password=password)
 
-    return render(request, 'accounts/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+            # Check if in database
+            if user is not None:
+                # Account is okay
+                if user.is_active:
+                    login(request, user)
+                    return redirect('movies.dashboard')
+
+        return render(request, self.template_name, { 'form': form })

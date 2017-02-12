@@ -17,6 +17,9 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = True
 
+LOGIN_URL = '/account/login/'
+LOGOUT_REDIRECT_URL = '/'
+
 # Application definition
 
 INSTALLED_APPS = [
