@@ -10,10 +10,17 @@ class Movie(models.Model):
     runtime = models.CharField(max_length=8)
     plot = models.CharField(max_length=250)
     release_date = models.DateField()
-    dvd_date = models.DateField(blank=True, null=True)
 
+    QUALITY_RATING = (
+        ('A', 'Best (1080p)'),
+        ('B', 'Good (720p)'),
+        ('C', 'Okay (DVDRip)'),
+        ('D', 'Poor (CAM)'),
+    )
+
+    quality = models.CharField(max_length=1, choices=QUALITY_RATING, blank=True)
     tracking = models.BooleanField()
     users = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
-        return "{} ({})".format(self.title, self.year)
+        return "{} {}".format(self.title, self.year)

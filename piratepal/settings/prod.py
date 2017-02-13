@@ -1,0 +1,8 @@
+from .base import *
+
+DEBUG = False
+TEMPLATE_DEBUG = False
+
+# DATABASES = {}
+
+ALLOWED_HOSTS = ["*"]
