@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 pirateTop = 'https://thepiratebay.org/top/48h201'
 pirateSearch = 'https://thepiratebay.org/search/'
