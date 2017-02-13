@@ -50,25 +50,34 @@ class BayScraper:
 
     def speak(self):
 
-        bay_list = ['Hacksaw Ridge (2016) DVDSCR 650MB - MkvCage', 'Doctor.Strange.2016.DVDScr.XVID.AC3.HQ.Hive-CM8' ]
-        db_list = ['Hacksaw Ridge 2016', 'Doctor Strange 2016']
+        bay_list = ['Hacksaw Ridge (2016) DVDSCR 650MB - MkvCage', 'Doctor.Strange.2016.1080P.XVID.AC3.HQ.Hive-CM8' ]
+        db_list = ['Hacksaw Ridge 2016', 'Doctor Strange 2016', 'Hugo 2012']
+        results_dict = {}
 
-        # Check Title
         for bay_item in bay_list:
             for db_movie in db_list:
-                # fuzzy similarity ratio
-                value = fuzz.token_set_ratio(db_movie, bay_item)
-                if value == 100:
+                self.validate_movies(bay_item, db_movie, results_dict)
 
-                    # Check Quality
-                    for key, value in self.quality.items():
-                        # check if the torrent title matches a value then return key
-                        for item in value:
-                            if item in bay_item:
-                                return "{} - Quality: {}".format(db_movie, key)
+        return results_dict
 
-    def validate_quality(self):
-        pass
+    def validate_movies(self, bay_item, db_movie, results_dict):
+        """
+        1. Check if movie/string from db match a bay_item (tokenized subset ratio)
+        2. If match, check for quality and add to results dictionary
+        """
+
+        value = fuzz.token_set_ratio(db_movie, bay_item)
+        if value == 100:
+            quality_rating = self.validate_quality(bay_item)
+            results_dict[db_movie] = quality_rating
+
+    def validate_quality(self, bay_item):
+        """ Returns a STR of quality (key in dict) if values match PirateBay string (bay_item) """
+
+        for rating, words in self.quality.items():
+            for word in words:
+                if word.lower() in bay_item.lower():
+                    return rating
 
     def check_top(self, imdb):
         """ Check the top new hits from the Bay (Daily) """
@@ -76,6 +85,10 @@ class BayScraper:
 
     def check_solo(self, imdb):
         """ Check an individual film on the Bay (Weekly) """
+        pass
+
+    def check_if_dvd(self, imdb):
+        """ Check if a film has been released on dvd (Monthly) """
         pass
 
 movie = MovieScraper()
