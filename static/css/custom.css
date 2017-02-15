@@ -1,3 +1,23 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
 .navfix {
-  padding-top: 50px;
+  padding-top: 25px;
+}
+
+*:focus { outline: 0 !important; }
+
+.navbar-inverse .navbar-toggler {
+  border-color: transparent;
+}
+
+.dropdown-menu {
+  background-color: #292b2c;
+  border: none;
+}
+.dropdown-item {
+  color: lightgrey;
+}
+.dropdown-item:hover {
+  color: white;
+  background-color: transparent;
 }
