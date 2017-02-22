@@ -13,7 +13,12 @@ class MovieScraper:
 
     def get_by_omdb(self, imdb):
         """ Use OMDB to get details """
-        pass
+        url = '{}{}'.format(self.omdb_url, 'i=' + imdb)
+        r = requests.get(url)
+        if r is not None:
+            return r.json()
+        else:
+            print('OMDB API is down')
 
     def get_by_imdb(self, imdb):
         """ Use IMDB to get details """
@@ -47,18 +52,30 @@ class BayScraper:
         self.quality['Great'] = ['1080p', 'BrRip', 'BluRay']
         self.quality['Good'] = ['720p', 'HDRip', 'Web-DL']
         self.quality['Okay'] = ['R5', 'DVDSCR', 'DVDRip']
-        self.quality['Poor'] = ['CAM', 'HDCAM']
+        self.quality['Poor'] = ['CAM', 'HDCAM', 'HDTS', 'HD-TS', 'TS']
 
     def update_db_list(self):
         """ Makes sure db_list is up to date with movies.tracking = True (Django queryset) """
 
-        self.db_list = ['Hacksaw Ridge 2016', 'Doctor Strange 2016', 'Hugo 2012']
+        self.db_list = ['Hacksaw Ridge 2016', 'Doctor Strange 2016', 'Hugo 2012', 'Man Down 2016']
+
+    def get_bay_list(self, url):
+        """ Return list of raw pirat bay strings """
+        r = requests.get(url)
+        if r is not None:
+            soup = BeautifulSoup(r.content, 'html.parser')
+            titles = soup.find_all("div", class_= "detName")[0:10]
+            results = [title.get_text() for title in titles]
+            return results
+        else:
+            print('get_bay_list error. !200')
+
 
     def check_top(self):
-        """ Check the top new hits from the Bay (Daily) """
+        """ Returns dict with key[title] and value[quality] if present in top list """
 
         results_dict = {}
-        bay_list = ['Hacksaw Ridge (2016) DVDSCR 650MB - MkvCage', 'Doctor.Strange.2016.1080P.XVID.AC3.HQ.Hive-CM8' ]
+        bay_list = self.get_bay_list(self.top_url)
         db_list = self.db_list
 
         for bay_item in bay_list:
@@ -67,13 +84,12 @@ class BayScraper:
 
         return results_dict
 
-    def check_solo(self, imdb):
-        """ Check an individual film on the Bay (Weekly) """
-        pass
+    def check_solo(self, name):
+        """ From movie name, returns value of quality as a STR """
 
-    def check_if_dvd(self, imdb):
-        """ Check if a film has been released on dvd (Monthly) """
-        pass
+        bay_list = self.get_bay_list(self.search_url + name)
+        print(bay_list)
+        return self.validate_quality(bay_list[0])
 
     def validate_movies(self, bay_item, db_movie, results_dict):
         """
@@ -97,4 +113,5 @@ class BayScraper:
 bay = BayScraper()
 bay.update_db_list()
 test = bay.check_top()
+
 print(test)
