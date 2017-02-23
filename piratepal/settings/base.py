@@ -14,7 +14,6 @@ load_dotenv(dotenv_path)
 
 # Env Config
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-MOVIE_API = os.environ.get('MOVIE_API_URL')
 DEBUG = True
 
 # Auth Items

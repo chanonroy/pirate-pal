@@ -9,6 +9,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.landing, name='landing'),
+    url(r'^api/', include('api.urls')),
     url(r'^account/', include('accounts.urls')),
     url(r'^movies/', include('movies.urls')),
     url(r'^admin/', admin.site.urls),

@@ -2,7 +2,13 @@
 
 {% block content %}
 
-<div><a href="{% url 'movies.archive' %}"> Archived </a></div>
-<div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
+<div class="container">
+
+  <h1> Add a movie </h1>
+  <div><a href="{% url 'movies.watchlist' %}"> Watchlist </a></div>
+  <div><a href="{% url 'movies.archive' %}"> Archived </a></div>
+  <div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
+
+</div>
 
 {% endblock %}

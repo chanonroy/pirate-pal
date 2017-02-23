@@ -26,18 +26,17 @@ class MovieScraper:
         r = requests.get(url)
         if r is not None:
             soup = BeautifulSoup(r.content, 'html.parser')
-            # imdb_id
+            imdb_id = imdb
             title = soup.find("h1", { "itemprop": "name" }).get_text() # John Wick: Chapter 2 (2017)
-            # photo
-            # year
-            # rated
-            # runtime
-            # plot
-            # release_date
+            photo = soup.find("div", { "class": "poster" }).find("img")['src'].strip()
+            year = soup.find("span", { "id": "titleYear"}).find("a").get_text().strip()
+            rated = soup.find("meta", { "itemprop": "contentRating"})['content'].strip()
+            runtime = soup.find("time", { "itemprop": "duration"}).get_text().strip()
+            plot = soup.find("div", { "class": "summary_text"}).get_text().strip()
+            release_date = soup.find("a", { "title": "See more release dates"}).get_text().strip()
 
             # tracking = false
             # users = set to request.user
-            print(title)
         else:
             print('Error')
 
@@ -60,7 +59,7 @@ class BayScraper:
         self.db_list = ['Hacksaw Ridge 2016', 'Doctor Strange 2016', 'Hugo 2012', 'Man Down 2016']
 
     def get_bay_list(self, url):
-        """ Return list of raw pirat bay strings """
+        """ Return list of raw pirate bay strings """
         r = requests.get(url)
         if r is not None:
             soup = BeautifulSoup(r.content, 'html.parser')
@@ -69,7 +68,6 @@ class BayScraper:
             return results
         else:
             print('get_bay_list error. !200')
-
 
     def check_top(self):
         """ Returns dict with key[title] and value[quality] if present in top list """
@@ -109,9 +107,3 @@ class BayScraper:
             for word in words:
                 if word.lower() in bay_item.lower():
                     return rating
-
-bay = BayScraper()
-bay.update_db_list()
-test = bay.check_top()
-
-print(test)

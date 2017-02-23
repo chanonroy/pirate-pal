@@ -2,19 +2,24 @@
 
 {% block content %}
 
-<h2> Movies Watchlist </h2>
+<div class="container">
 
-<div><a href="{% url 'movies.archive' %}"> Archived </a></div>
-<div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
+  <h2> Movies Watchlist </h2>
 
-{% if movies %}
-<ul>
-  {% for movie in movies %}
-  <li> {{ movie.title }} </li>
-  {% endfor %}
-</ul>
-{% else %}
-<div> No movies on watchlist </div>
-{% endif %}
+  <div><a href="{% url 'movies.watchlist' %}"> Watchlist </a></div>
+  <div><a href="{% url 'movies.archive' %}"> Archived </a></div>
+  <div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
+
+  {% if movies %}
+  <ul>
+    {% for movie in movies %}
+    <li> {{ movie.title }} </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <div> No movies on watchlist </div>
+  {% endif %}
+
+</div>
 
 {% endblock %}
