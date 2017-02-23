@@ -20,6 +20,28 @@ var app = new Vue({
       });
 
       app.url = '';
+    },
+    createMovie: function() {
+      var app = this;
+
+      axios.post('/api/movie/create/', {
+        imdb_id: app.imdb_id,
+        title: app.title,
+        photo: app.photo,
+        year: app.year,
+        rated: app.rated,
+        runtime: app.runtime,
+        plot: app.plot,
+        release_date: app.release_date
+      })
+      .then(function (response) {
+        var data = response.data;
+        console.log(JSON.stringify(data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     }
   }
 });

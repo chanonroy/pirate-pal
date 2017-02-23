@@ -6,10 +6,6 @@
 
   <h2> Movies Watchlist </h2>
 
-  <div><a href="{% url 'movies.watchlist' %}"> Watchlist </a></div>
-  <div><a href="{% url 'movies.archive' %}"> Archived </a></div>
-  <div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
-
   {% if movies %}
   <ul>
     {% for movie in movies %}

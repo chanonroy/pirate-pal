@@ -32,22 +32,37 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 
               <ul class="navbar-nav">
-                {% if user.is_superuser %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">
-                      <i class="fa fa-database fa-fw" aria-hidden="true"></i>
-                      Admin
-                    </a>
-                  </li>
-                {% endif %}
 
                 {% if user.is_authenticated %}
                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'movies.dashboard' %}">
-                      <i class="fa fa-th fa-fw" aria-hidden="true"></i>
-                      My Movies
+                    <a class="nav-link" href="{% url 'movies.watchlist' %}">
+                      <i class="fa fa-th-list fa-fw" aria-hidden="true"></i>
+                      Watchlist
                     </a>
                   </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'movies.add' %}">
+                      <i class="fa fa-video-camera fa-fw" aria-hidden="true"></i>
+                      Add Movie
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'movies.archive' %}">
+                      <i class="fa fa-archive fa-fw" aria-hidden="true"></i>
+                      Archived
+                    </a>
+                  </li>
+
+                  {% if user.is_superuser %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'admin:index' %}">
+                        <i class="fa fa-database fa-fw" aria-hidden="true"></i>
+                        Admin
+                      </a>
+                    </li>
+                  {% endif %}
 
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
