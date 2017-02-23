@@ -26,15 +26,18 @@ class MovieScraper:
         r = requests.get(url)
         if r is not None:
             soup = BeautifulSoup(r.content, 'html.parser')
-            imdb_id = imdb
-            title = soup.find("h1", { "itemprop": "name" }).get_text() # John Wick: Chapter 2 (2017)
-            photo = soup.find("div", { "class": "poster" }).find("img")['src'].strip()
-            year = soup.find("span", { "id": "titleYear"}).find("a").get_text().strip()
-            rated = soup.find("meta", { "itemprop": "contentRating"})['content'].strip()
-            runtime = soup.find("time", { "itemprop": "duration"}).get_text().strip()
-            plot = soup.find("div", { "class": "summary_text"}).get_text().strip()
-            release_date = soup.find("a", { "title": "See more release dates"}).get_text().strip()
+            return_dict = {}
+            return_dict['imdb_id'] = imdb
+            return_dict['title'] = soup.find("h1", { "itemprop": "name" }).get_text() # John Wick: Chapter 2 (2017)
+            return_dict['photo'] = soup.find("div", { "class": "poster" }).find("img")['src'].strip()
+            return_dict['year'] = soup.find("span", { "id": "titleYear"}).find("a").get_text().strip()
+            return_dict['rated'] = soup.find("meta", { "itemprop": "contentRating"})['content'].strip()
+            return_dict['runtime'] = soup.find("time", { "itemprop": "duration"}).get_text().strip()
+            return_dict['plot'] = soup.find("div", { "class": "summary_text"}).get_text().strip()
+            return_dict['release_date'] = soup.find("a", { "title": "See more release dates"}).get_text().strip()
 
+            return return_dict
+            
             # tracking = false
             # users = set to request.user
         else:

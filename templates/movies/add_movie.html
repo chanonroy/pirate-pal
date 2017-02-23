@@ -1,4 +1,5 @@
 {% extends '_base/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -9,6 +10,38 @@
   <div><a href="{% url 'movies.archive' %}"> Archived </a></div>
   <div><a href="{% url 'movies.add' %}"> Add Movie </a></div>
 
+  {% verbatim %}
+  <div id="app" v-cloak>
+
+    <br>
+
+    <div> Add Movie from IMDB Url - e.g, http://www.imdb.com/title/tt4425200/ </div>
+    <input v-model="url" v-on:keyup.enter="getMovie(url)" type="text" class="form-control">
+    <div> {{ url }} </div>
+
+    <br>
+
+    <div v-if="movie.title">
+      <img :src="movie.photo" :alt="movie.title">
+      <ul>
+        <li> {{ movie.title }} </li>
+        <li> {{ movie.rated }}</li>
+        <li> {{ movie.imdb_id }}</li>
+        <li> {{ movie.plot }}</li>
+        <li> {{ movie.year }}</li>
+        <li> {{ movie.release_date}}</li>
+      </ul>
+    </div>
+
+  </div>
+  {% endverbatim %}
+
 </div>
 
+{% endblock %}
+
+{% block js %}
+  {{ block.super }}
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="{% static 'js/add_movie.js' %}"></script>
 {% endblock %}
