@@ -1,3 +1,4 @@
+# pylint: disable=E1101, E0401, E0611, C0111
 from django.db import models
 from django.contrib.auth.models import User
 

@@ -25,9 +25,12 @@
         <li> {{ movie.rated }}</li>
         <li> {{ movie.imdb_id }}</li>
         <li> {{ movie.plot }}</li>
+        <li> {{ movie.runtime }}</li>
         <li> {{ movie.year }}</li>
+        <li> {{ movie.iso_date }}</li>
         <li> {{ movie.release_date}}</li>
       </ul>
+      <button type="button" class="btn btn-primary" v-on:click="add_movie()"> Add to Watchlist </button>
     </div>
 
   </div>

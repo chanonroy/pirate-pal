@@ -16,32 +16,39 @@ class MovieScraper:
         url = '{}{}'.format(self.omdb_url, 'i=' + imdb)
         r = requests.get(url)
         if r is not None:
-            return r.json()
+            response_dict = {'success': True, 'data': r.json()}
+            return response_dict
         else:
-            print('OMDB API is down')
+            response_dict = {'success': False, 'data': 1}
+            return response_dict
 
     def get_by_imdb(self, imdb):
         """ Use IMDB to get details """
         url = '{}{}'.format(self.imdb_url, imdb)
         r = requests.get(url)
         if r is not None:
-            soup = BeautifulSoup(r.content, 'html.parser')
-            return_dict = {}
-            return_dict['imdb_id'] = imdb
-            return_dict['title'] = soup.find("h1", { "itemprop": "name" }).get_text() # John Wick: Chapter 2 (2017)
-            return_dict['photo'] = soup.find("div", { "class": "poster" }).find("img")['src'].strip()
-            return_dict['year'] = soup.find("span", { "id": "titleYear"}).find("a").get_text().strip()
-            return_dict['rated'] = soup.find("meta", { "itemprop": "contentRating"})['content'].strip()
-            return_dict['runtime'] = soup.find("time", { "itemprop": "duration"}).get_text().strip()
-            return_dict['plot'] = soup.find("div", { "class": "summary_text"}).get_text().strip()
-            return_dict['release_date'] = soup.find("a", { "title": "See more release dates"}).get_text().strip()
+            try:
+                soup = BeautifulSoup(r.content, 'html.parser')
+                return_dict = {}
+                return_dict['success'] = True
+                return_dict['imdb_id'] = imdb
+                return_dict['title'] = soup.find("h1", {"itemprop": "name"}).get_text() # John Wick: Chapter 2 (2017)
+                return_dict['photo'] = soup.find("div", {"class": "poster"}).find("img")['src'].strip()
+                return_dict['year'] = soup.find("span", {"id": "titleYear"}).find("a").get_text().strip()
+                return_dict['rated'] = soup.find("meta", { "itemprop": "contentRating"})['content'].strip()
+                return_dict['runtime'] = soup.find("time", { "itemprop": "duration"}).get_text().strip()
+                return_dict['plot'] = soup.find("div", { "class": "summary_text"}).get_text().strip()
+                return_dict['release_date'] = soup.find("a", { "title": "See more release dates"}).get_text().strip()
+                return return_dict
+            except TypeError:
+                return_dict = {'success': False}
+                return return_dict
 
-            return return_dict
-            
             # tracking = false
             # users = set to request.user
         else:
-            print('Error')
+            return_dict = {'success': False}
+            return return_dict
 
 class BayScraper:
     """ Scrape the Bay to check for quality """

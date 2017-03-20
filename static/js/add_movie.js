@@ -12,7 +12,9 @@ var app = new Vue({
       axios.get('/api/movie/get/' + imdb)
         .then(function (response) {
           var data = response.data;
-          console.log(JSON.stringify(data));
+          data.title = data.title.replace(/(.\d{4}.)/, ''); // fix (2017) in title
+          data.release_date = data.release_date.replace(/\([^\)]*\)/, '').trim();
+          data.iso_date = fix_date(data.release_date);
           app.movie = data;
         })
         .catch(function (error) {
@@ -21,18 +23,18 @@ var app = new Vue({
 
       app.url = '';
     },
-    createMovie: function() {
-      var app = this;
+    addMovie: function() {
+      var movie = this.movie;
 
       axios.post('/api/movie/create/', {
-        imdb_id: app.imdb_id,
-        title: app.title,
-        photo: app.photo,
-        year: app.year,
-        rated: app.rated,
-        runtime: app.runtime,
-        plot: app.plot,
-        release_date: app.release_date
+        imdb_id: movie.imdb_id, // tt4425200
+        title: movie.title, // John Wick: Chapter 2 (2017)
+        photo: movie.photo, // https://images-na.ssl-images-amazon.com/images/M/MV5BMjE2NDkxNTY2M15BMl5BanBnXkFtZTgwMDc2NzE0MTI@._V1_UX182_CR0,0,182,268_AL_.jpg
+        year: movie.year, // 2017
+        rated: movie.rated, // 14A
+        runtime: movie.runtime,
+        plot: movie.plot, // After returning to the criminal ...
+        release_date: movie.release_date
       })
       .then(function (response) {
         var data = response.data;
@@ -41,7 +43,13 @@ var app = new Vue({
       .catch(function (error) {
         console.log(error);
       });
-
-    }
+    },
   }
 });
+
+function fix_date(str) {
+  // fix date string into ISO format
+  var split = str.split(' ');
+  var month = new Date(Date.parse(split[1] +" 1, 2012")).getMonth()+1;
+  return split[2] + '-' + month + '-' + split[0];
+}

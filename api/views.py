@@ -1,4 +1,4 @@
-# pylint: disable=E1101, E0401, E0611
+# pylint: disable=E1101, E0401, E0611, C0111, C
 import json
 import requests
 
@@ -10,25 +10,31 @@ from movies.models import Movie
 from utils.scraper import MovieScraper, BayScraper
 
 # Scraper Objects
-MovieScraper = MovieScraper()
+MovScraper = MovieScraper()
 BayScraper = BayScraper()
 
 def get_movie_details(request, imdb):
+
     if len(imdb) < 11:
         # Get details from OMDB
-        response_dict = MovieScraper.get_by_imdb(imdb)
+        response_dict = MovScraper.get_by_imdb(imdb) # TODO: make IMDB scrape
+        if response_dict['success'] == False:
+            return JsonResponse(status=400, data=response_dict)
         return JsonResponse(status=200, data=response_dict)
     else:
-        return HttpResponse(status=400)
+        response_dict = {'message': 'Invalid ID'}
+        return JsonResponse(status=400, data=response_dict)
 
 @csrf_exempt # for testing, remove on prod
 def create_movie(request):
+    ''' Create movie '''
+
     if request.method == 'POST':
 
         imdb = request.POST['imdb']
 
         if Movie.objects.filter(imdb_id=imdb).exists():
-            return JsonResponse({ 'movie_exists': 'yes'})
+            return JsonResponse({'movie_exists': True, 'movie_saved': False})
         else:
             mov = Movie(
                 imdb_id=imdb,
@@ -41,4 +47,4 @@ def create_movie(request):
                 release_date=request.POST['plot'])
             mov.save()
             # save object into model manager
-            return JsonResponse({ 'movie_exists': 'no'})
+            return JsonResponse({'movie_exists': False, 'movie_saved': True})

@@ -1,3 +1,4 @@
+# pylint: disable=E1101, E0401, E0611, C0111
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Movie
@@ -6,7 +7,7 @@ from .models import Movie
 def index(request):
 
     movies = Movie.objects.filter(users=request.user).filter(tracking=True) # .order_by('param')
-    context_dict = { 'movies': movies }
+    context_dict = {'movies': movies}
 
     return render(request, 'movies/dashboard.html', context=context_dict)
 
@@ -14,7 +15,7 @@ def index(request):
 def archive(request):
 
     movies = Movie.objects.filter(users=request.user).filter(tracking=False)
-    context_dict = { 'movies': movies }
+    context_dict = {'movies': movies}
 
     return render(request, 'movies/archive.html', context=context_dict)
 
